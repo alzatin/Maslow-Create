@@ -1,0 +1,15 @@
+[ver:1,total:9960]
+src/js/molecules/nest.js:5246,1567465200:578,1567468800:2124,1567472400:2414,1567476000:130,m
+src/js/molecules/molecule.js:1713,1567465200:1048,1567468800:665,m
+src/js/lib/SVGnest-master/svgnest.js:1194,1567465200:38,1567468800:142,1567472400:975,1567476000:39,m
+src/js/globalvariables.js:645,1567465200:361,1567468800:142,1567476000:142,r
+src/js/lib/SVGnest-master/index.html:334,1567465200:64,1567468800:270,r
+src/js/lib/SVGnest-master/svgparser.js:225,1567468800:20,1567472400:151,1567476000:54,r
+src/index.html:203,1567465200:158,1567468800:30,1567476000:15,m
+src/js/molecules/svg.js:198,1567465200:111,1567468800:47,1567476000:40,r
+src/flowDraw.js:100,1567468800:100,r
+node_modules/json-stable-stringify-without-jsonify/test/nested.js:60,1567465200:60,r
+node_modules/deep-is/test/NaN.js:20,1567465200:20,r
+src/js/prototypes/atom.js:10,1567465200:10,r
+src/js/molecules/stl.js:6,1567465200:6,r
+src/js/molecules/scale.js:6,1567465200:6,r
