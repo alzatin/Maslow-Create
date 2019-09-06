@@ -1,0 +1,13 @@
+[ver:1,total:4941]
+src/js/lib/SVGnest-master/util/clipper.js:3375,1567706400:5,1567803600:1852,1567807200:366,1567810800:1152,m
+src/js/lib/SVGnest-master/util/pathsegpolyfill.js:1096,1567706400:297,1567710000:255,1567800000:394,1567803600:126,1567807200:12,1567810800:12,r
+src/js/globalvariables.js:118,1567706400:48,1567803600:70,r
+src/js/molecules/nest.js:110,1567695600:30,1567803600:15,1567807200:30,1567810800:35,r
+src/js/lib/SVGnest-master/util/placementworker.js:107,1567706400:5,1567803600:90,1567807200:12,r
+src/js/lib/SVGnest-master/util/geometryutil.js:35,1567706400:5,1567803600:30,r
+src/js/lib/SVGnest-master/util/filesaver.js:25,1567706400:5,1567800000:20,r
+src/js/lib/SVGnest-master/util/parallel.js:20,1567706400:5,1567803600:15,r
+src/js/lib/SVGnest-master/util/json.js:20,1567706400:5,1567803600:15,r
+src/js/lib/SVGnest-master/util/eval.js:15,1567706400:5,1567803600:10,r
+src/js/lib/SVGnest-master/util/domparser.js:15,1567706400:5,1567803600:10,r
+src/js/lib/SVGnest-master/index.html:5,1567706400:5,r
