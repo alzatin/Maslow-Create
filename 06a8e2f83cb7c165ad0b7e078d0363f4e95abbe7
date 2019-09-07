@@ -1,0 +1,15 @@
+[ver:1,total:381]
+src/js/lib/vec2.js:124,1567810800:124,r
+src/js/lib/SVGnest-master/clipperLib.js:110,1567818000:20,1567821600:90,m
+src/js/lib/SVGnest-master/index.html:34,1567810800:4,1567821600:30,r
+src/js/lib/clipper-lib-master/bower.json:30,1567818000:30,d
+src/js/lib/SVGnest-master/svgparser.js:24,1567810800:24,r
+src/js/lib/SVGnest-master/util/domparser.js:19,1567810800:4,1567818000:15,r
+src/js/lib/SVGnest-master/readme.md:8,1567810800:8,r
+src/js/lib/service.js:8,1567810800:8,r
+src/js/lib/browserOrNode.js:4,1567810800:4,r
+src/js/lib/FileSaver.js:4,1567810800:4,r
+src/js/lib/SVGnest-master/util/eval.js:4,1567810800:4,r
+src/js/lib/SVGReader.js:4,1567810800:4,r
+src/js/lib/SVGnest-master/style.css:4,1567810800:4,r
+src/js/lib/conversation.js:4,1567810800:4,r
