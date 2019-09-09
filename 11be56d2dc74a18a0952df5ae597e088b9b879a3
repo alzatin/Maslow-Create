@@ -1,0 +1,4 @@
+[ver:1,total:3180]
+src/js/prototypes/atom.js:3140,1567994400:2700,1567998000:440,m
+src/js/lib/SVGReader.js:20,1567998000:20,r
+node_modules/@babel/traverse/lib/scope/index.js:20,1567998000:20,r
