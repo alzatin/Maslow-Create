@@ -1,0 +1,10 @@
+[ver:1,total:3360]
+dist/maslowCreate.css:1170,1568383200:570,1568386800:600,m
+src/js/prototypes/atom.js:519,1568296800:20,1568300400:499,r
+src/js/molecules/molecule.js:497,1568296800:80,1568300400:387,1568383200:30,r
+src/js/molecules/circle.js:490,1568300400:490,r
+src/js/display.js:300,1568296800:140,1568300400:160,r
+src/js/globalvariables.js:147,1568300400:147,r
+src/js/lib/service.js:90,1568300400:90,r
+src/js/molecules/assembly.js:77,1568300400:77,r
+src/flowDraw.js:70,1568300400:70,r
