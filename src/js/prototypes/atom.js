@@ -87,6 +87,11 @@ export default class Atom {
          */
         this.isMoving = false
         /** 
+         * A flag to indicate if we are hovering over this atom.
+         * @type {boolean}
+         */
+         this.showHover = false
+        /** 
          * The X cordinate of this atom now
          * @type {number}
          */
@@ -183,6 +188,7 @@ export default class Atom {
             this.color = this.defaultColor
             this.strokeColor = this.selectedColor
         }
+
         GlobalVariables.c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false)
         GlobalVariables.c.textAlign = 'start' 
         GlobalVariables.c.fillText(this.name, this.x + this.radius, this.y-this.radius)
@@ -193,26 +199,30 @@ export default class Atom {
         GlobalVariables.c.closePath()
       
         if (this.alertMessage.length > 0){
-            //Draw Alert block  
-            GlobalVariables.c.beginPath()
-            const padding = 10
-            GlobalVariables.c.fillStyle = 'red'
-            GlobalVariables.c.rect(
-                this.x + this.radius - padding/2, 
-                this.y - this.radius + padding/2, 
-                GlobalVariables.c.measureText(this.alertMessage).width + padding, 
-                - (parseInt(GlobalVariables.c.font) + padding))
-            GlobalVariables.c.fill()
-            GlobalVariables.c.strokeStyle = 'black'
-            GlobalVariables.c.lineWidth = 1
-            GlobalVariables.c.stroke()
-            GlobalVariables.c.closePath()
+            this.color = "red"
+            if(this.showHover){
+            console.log('alert')
+                //Draw Alert block  
+                GlobalVariables.c.beginPath()
+                const padding = 10
+                GlobalVariables.c.fillStyle = 'red'
+                GlobalVariables.c.rect(
+                    this.x + this.radius - padding/2, 
+                    this.y - this.radius + padding/2, 
+                    GlobalVariables.c.measureText(this.alertMessage).width + padding, 
+                    - (parseInt(GlobalVariables.c.font) + padding))
+                GlobalVariables.c.fill()
+                GlobalVariables.c.strokeStyle = 'black'
+                GlobalVariables.c.lineWidth = 1
+                GlobalVariables.c.stroke()
+                GlobalVariables.c.closePath()
 
-            GlobalVariables.c.beginPath()
-            GlobalVariables.c.fillStyle = 'black'
-            GlobalVariables.c.fillText(this.alertMessage, this.x + this.radius, this.y - this.radius) 
-            GlobalVariables.c.closePath()
-        }
+                GlobalVariables.c.beginPath()
+                GlobalVariables.c.fillStyle = 'black'
+                GlobalVariables.c.fillText(this.alertMessage, this.x + this.radius, this.y - this.radius) 
+                GlobalVariables.c.closePath()
+            }
+        } 
     }
     
     /**
@@ -277,9 +287,8 @@ export default class Atom {
      * @param {string} message - The message to display.
      */ 
     setAlert(message){
-        this.color = 'orange'
+        this.color = 'red'
         this.alertMessage = String(message)
-
     }
     
     /**
@@ -378,6 +387,14 @@ export default class Atom {
         if(this.output){
             this.output.clickMove(x,y)
         }
+
+        var distFromClick = GlobalVariables.distBetweenPoints(x, this.x, y, this.y)
+        
+        //If we are close to the attachment point move it to it's hover location to make it accessible
+        if (distFromClick < this.radius ){
+            this.showHover = true
+        }  
+        else { this.showHover = false}
     }
     
     /**
