@@ -90,7 +90,7 @@ export default class Atom {
          * A flag to indicate if we are hovering over this atom.
          * @type {boolean}
          */
-         this.showHover = false
+        this.showHover = false
         /** 
          * The X cordinate of this atom now
          * @type {number}
@@ -201,7 +201,6 @@ export default class Atom {
         if (this.alertMessage.length > 0){
             this.color = "red"
             if(this.showHover){
-            console.log('alert')
                 //Draw Alert block  
                 GlobalVariables.c.beginPath()
                 const padding = 10
