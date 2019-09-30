@@ -208,7 +208,7 @@ export default class Atom {
                 GlobalVariables.c.rect(
                     this.x + this.radius - padding/2, 
                     this.y - this.radius + padding/2, 
-                    GlobalVariables.c.measureText(this.alertMessage).width + padding, 
+                    GlobalVariables.c.measureText(this.alertMessage.toUpperCase()).width + padding, 
                     - (parseInt(GlobalVariables.c.font) + padding))
                 GlobalVariables.c.fill()
                 GlobalVariables.c.strokeStyle = 'black'
@@ -218,7 +218,7 @@ export default class Atom {
 
                 GlobalVariables.c.beginPath()
                 GlobalVariables.c.fillStyle = 'black'
-                GlobalVariables.c.fillText(this.alertMessage, this.x + this.radius, this.y - this.radius) 
+                GlobalVariables.c.fillText(this.alertMessage.toUpperCase(), this.x + this.radius, this.y - this.radius) 
                 GlobalVariables.c.closePath()
             }
         } 
