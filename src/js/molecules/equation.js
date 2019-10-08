@@ -68,7 +68,7 @@ export default class Equation extends Atom {
                 }
             }
             
-            if(this.inputs.every(x => x.ready)){
+            if(!GlobalVariables.evalLock && this.inputs.every(x => x.ready)){
                 
                 //Substitute numbers into the string
                 var substitutedEquation = this.currentEquation

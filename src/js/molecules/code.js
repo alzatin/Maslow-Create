@@ -34,47 +34,42 @@ export default class Code extends Atom {
         
         this.setValues(values)
         
-        this.parseInputs()
+        this.updateValue()
     }
     
     /**
-     * Grab the code as a text string and execute it. 
+     * Grab the code as a text string and execute it. This really needs to be moved to a worker for security.
      */ 
     updateValue(){
         try{
-            this.parseInputs()
+            //Parse this.code for the line "\nmain(input1, input2....) and add those as inputs if needed
+            var variables = /\(\s*([^)]+?)\s*\)/.exec(this.code)
+            if (variables[1]) {
+                variables = variables[1].split(/\s*,\s*/)
+            }
+            
+            //Add any inputs which are needed
+            for (var variable in variables){
+                if(!this.inputs.some(input => input.Name === variables[variable])){
+                    this.addIO('input', variables[variable], this, 'geometry', null)
+                }
+            }
+            
+            //Remove any inputs which are not needed
+            for (var input in this.inputs){
+                if( !variables.includes(this.inputs[input].name) ){
+                    this.removeIO('input', this.inputs[input].name, this)
+                }
+            }
             
             var argumentsArray = {}
-            this.inputs.forEach(input => {
-                argumentsArray[input.name] = input.value
+            variables.forEach(variable => {
+                argumentsArray[variable] = this.findIOValue(String(variable))
             })
             
             const values = [this.code, argumentsArray]
-            
             this.basicThreadValueProcessing(values, "code")
         }catch(err){this.setAlert(err)}
-    }
-    
-    parseInputs(){
-        //Parse this.code for the line "\nmain(input1, input2....) and add those as inputs if needed
-        var variables = /\(\s*([^)]+?)\s*\)/.exec(this.code)
-        if (variables[1]) {
-            variables = variables[1].split(/\s*,\s*/)
-        }
-        
-        //Add any inputs which are needed
-        for (var variable in variables){
-            if(!this.inputs.some(input => input.Name === variables[variable])){
-                this.addIO('input', variables[variable], this, 'geometry', null, true)
-            }
-        }
-        
-        //Remove any inputs which are not needed
-        for (var input in this.inputs){
-            if( !variables.includes(this.inputs[input].name) ){
-                this.removeIO('input', this.inputs[input].name, this)
-            }
-        }
     }
     
     /**

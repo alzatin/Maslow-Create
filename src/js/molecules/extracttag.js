@@ -1,4 +1,5 @@
 import Atom from '../prototypes/atom.js'
+import GlobalVariables from '../globalvariables.js'
 
 /**
  * The cut away tag adds a tag to a part indicating that it should be cut away from the rest of the model in the next assembly. Essentially it creates a negitive version of itself.
@@ -38,7 +39,7 @@ export default class ExtractTag extends Atom{
      * Adds the cutAway tag to the part
      */ 
     updateValue(){
-        if(this.inputs.every(x => x.ready)){
+        if(!GlobalVariables.evalLock && this.inputs.every(x => x.ready)){
             try{
                 const values = [this.findIOValue('geometry'), this.findIOValue('tag')]
                 this.basicThreadValueProcessing(values, "extractTag")

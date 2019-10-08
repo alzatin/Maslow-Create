@@ -44,7 +44,7 @@ export default class Connector {
         
         for(var key in values) {
             /**
-             * Assign each of the values in values as this.key
+             * Assign each of the values in values as this.value
              */
             this[key] = values[key]
         }
@@ -65,6 +65,7 @@ export default class Connector {
      * Draw the connector as a bezier curve on the screen
      */ 
     draw(){
+        
         GlobalVariables.c.beginPath()
         GlobalVariables.c.fillStyle = this.color
         GlobalVariables.c.strokeStyle = this.color
@@ -137,14 +138,17 @@ export default class Connector {
     }
     
     /**
-     * Deletes the connector by calling its attachmentPoints to tell them to delete their references to this connector.
+     * Deletes the connector and calls its attachmentPoints to tell them to delete their references to this connector.
      */ 
     deleteSelf(){
-        //Remove this connector from the output it is attached to
-        this.attachmentPoint1.deleteConnector(this) 
-        
         //Free up the input to which this was attached
-        this.attachmentPoint2.deleteConnector(this)
+        if(this.attachmentPoint2 != null){
+            this.attachmentPoint2.connectors = []
+            this.attachmentPoint2.setDefault()
+        }
+        
+        //Remove this connector from the output it is attached to
+        this.attachmentPoint1.connectors.splice(this.attachmentPoint1.connectors.indexOf(this),1) 
     }
     
     /**

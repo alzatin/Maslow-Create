@@ -158,28 +158,30 @@ export default class Input extends Atom {
     }
     
     /**
-     * Grabs the new value from the parent molecule's input, sets this atoms value, then propogates. TODO: If the parent has nothing connected, check to see if something is tied to the default input. 
+     * Set's the output value and shows the atom output on the 3D view.
      */ 
     updateValue(){
-        this.parent.inputs.forEach(input => { //Grab the value for this input from the parent's inputs list
-            if(input.name == this.name){        //If we have found the matching input
-                this.value = input.getValue()
-                this.output.lock()              //Lock all of the dependents
-                this.output.setValue(this.value)
+        
+        this.parent.inputs.forEach(input => {
+            if(input.name == this.name){
+                input.updateDefault(this.findIOValue('default value'))
             }
         })
+        
+        this.setOutput(this.findIOValue('default value'))
+        this.displayAndPropogate()
     }
     
     /**
-     * Unlocks the atom by checking to see if it has any upstream components that it should wait for before beginning to process. Split from atom version because we don't want this to run if nothing is connected.
+     * Set's the input's value after locking everything downstream to ensure optimal computation.
+     * @param {number} newOutput - The new value to be used
      */ 
-    unlock(){
-        //Runs right after the loading process to unlock attachment points which have no connectors attached
-        this.inputs.forEach(input => {
-            if(input.connectors.length == 0){
-                input.ready = true
-            }
-        })
+    setOutput(newOutput){
+        this.output.lock() //Lock all of the dependents
+        //Set the input's output
+        this.value = newOutput  //Set the code block so that clicking on the input previews what it is 
+        //Set the output to be the new value
+        this.output.setValue(newOutput)
     }
     
     /**
@@ -198,4 +200,10 @@ export default class Input extends Atom {
         return this.output.getValue()
     }
     
+    /**
+     * Sets the output to be the current value...why?
+     */ 
+    displayAndPropogate(){
+        this.setOutput(this.getOutput())
+    }
 }

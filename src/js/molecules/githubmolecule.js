@@ -48,6 +48,7 @@ export default class GitHubMolecule extends Molecule {
         if (distFromClick < this.radius){
             clickProcessed = true
         }
+        
         return clickProcessed 
     }
     

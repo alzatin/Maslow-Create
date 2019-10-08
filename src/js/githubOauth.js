@@ -491,6 +491,7 @@ export default function GitHubModule(){
             })
         })
         
+        GlobalVariables.evalLock = false
         GlobalVariables.currentMolecule.backgroundClick()
         
         //Clear and hide the popup
@@ -556,44 +557,48 @@ export default function GitHubModule(){
             
             const threadCompute = async (values, key) => {
                 return await GlobalVariables.saveWorker({values: values, key: key})
-            } 
-            threadCompute([shape], "SVG Picture").then(contentSvg => {
+            }
+            threadCompute([shape], "stl").then( stlContent => {
                 
-                var bomContent = bomHeader
-                extractBomTags(GlobalVariables.topLevelMolecule.value).then(bomItems => {
-                    var totalParts = 0
-                    var totalCost  = 0
-                    if(bomItems != undefined){
-                        bomItems.forEach(item => {
-                            totalParts += item.numberNeeded
-                            totalCost  += item.costUSD
-                            bomContent = bomContent + "\n|" + item.BOMitemName + "|" + item.numberNeeded + "|$" + item.costUSD.toFixed(2) + "|" + item.source + "|"
-                        })
-                    }
-                    bomContent = bomContent + "\n|" + "Total: " + "|" + totalParts + "|$" + totalCost.toFixed(2) + "|" + " " + "|"
-                    bomContent = bomContent+"\n\n 3xCOG MSRP: $" + (3*totalCost).toFixed(2)
+                threadCompute([shape], "SVG Picture").then(contentSvg => {
                     
-                    
-                    var readmeContent = readmeHeader + "\n\n" + "# " + saveRepoName + "\n\n![](/project.svg)\n\n"
-                    GlobalVariables.topLevelMolecule.requestReadme().forEach(item => {
-                        readmeContent = readmeContent + item + "\n\n\n"
-                    })
-                    
-                    const projectContent = JSON.stringify(GlobalVariables.topLevelMolecule.serialize(null), null, 4)
-                    
-                    this.createCommit(octokit,{
-                        owner: saveUser,
-                        repo: saveRepoName,
-                        base: 'master', /* optional: defaults to default branch */
-                        changes: {
-                            files: {
-                                'project.svg': contentSvg,
-                                'BillOfMaterials.md': bomContent,
-                                'README.md': readmeContent,
-                                'project.maslowcreate': projectContent
-                            },
-                            commit: 'Autosave'
+                    var bomContent = bomHeader
+                    extractBomTags(GlobalVariables.topLevelMolecule.value).then(bomItems => {
+                        var totalParts = 0
+                        var totalCost  = 0
+                        if(bomItems != undefined){
+                            bomItems.forEach(item => {
+                                totalParts += item.numberNeeded
+                                totalCost  += item.costUSD
+                                bomContent = bomContent + "\n|" + item.BOMitemName + "|" + item.numberNeeded + "|$" + item.costUSD.toFixed(2) + "|" + item.source + "|"
+                            })
                         }
+                        bomContent = bomContent + "\n|" + "Total: " + "|" + totalParts + "|$" + totalCost.toFixed(2) + "|" + " " + "|"
+                        bomContent = bomContent+"\n\n 3xCOG MSRP: $" + (3*totalCost).toFixed(2)
+                        
+                        
+                        var readmeContent = readmeHeader + "\n\n" + "# " + saveRepoName + "\n\n![](/project.svg)\n\n"
+                        GlobalVariables.topLevelMolecule.requestReadme().forEach(item => {
+                            readmeContent = readmeContent + item + "\n\n\n"
+                        })
+                        
+                        const projectContent = JSON.stringify(GlobalVariables.topLevelMolecule.serialize(null), null, 4)
+                        
+                        this.createCommit(octokit,{
+                            owner: saveUser,
+                            repo: saveRepoName,
+                            base: 'master', /* optional: defaults to default branch */
+                            changes: {
+                                files: {
+                                    'project.stl': stlContent,
+                                    'project.svg': contentSvg,
+                                    'BillOfMaterials.md': bomContent,
+                                    'README.md': readmeContent,
+                                    'project.maslowcreate': projectContent
+                                },
+                                commit: 'Autosave'
+                            }
+                        })
                     })
                 })
             })
@@ -664,7 +669,8 @@ export default function GitHubModule(){
     /** 
      * Loads a project from github by name.
      */
-    this.loadProject = async function(projectName){
+    this.loadProject = function(projectName){
+        GlobalVariables.evalLock = true //Lock evaluation of anything
         if(typeof intervalTimer != undefined){
             clearInterval(intervalTimer) //Turn off auto saving
         }
@@ -704,7 +710,15 @@ export default function GitHubModule(){
             }
             
             //Load the top level molecule from the file
-            GlobalVariables.topLevelMolecule.deserialize(moleculesList, moleculesList.filter((molecule) => { return molecule.topLevel == true })[0].uniqueID)
+            const allAtomsPlaced = GlobalVariables.topLevelMolecule.deserialize(moleculesList, moleculesList.filter((molecule) => { return molecule.topLevel == true })[0].uniqueID)
+            
+            allAtomsPlaced.then( ()=> {
+                GlobalVariables.evalLock = false
+                GlobalVariables.topLevelMolecule.unlock()
+                GlobalVariables.topLevelMolecule.beginPropogation()
+                GlobalVariables.topLevelMolecule.backgroundClick()
+            })
+            
             intervalTimer = setInterval(() => this.saveProject(), 120000) //Save the project regularly
         })
         
